@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: shipra999/golang-app:v2
+  repository: shipra999/golang-app:v9
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: ""

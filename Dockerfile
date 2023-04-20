@@ -1,11 +1,8 @@
 FROM golang:1.18.1
 RUN mkdir /app
-ADD . /app
+ADD ./go.mod ./go.sum ./main.go /app 
 WORKDIR /app
-ENV Port=8081 \
-    RedisHost="redis-golang.default.svc.cluster.local" \
-    RedisPort=6379 \
-    RedisDb=0
+ENV PORT=8081
 RUN go mod download
 RUN go build -o main .
 CMD ["/app/main"]

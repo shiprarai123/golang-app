@@ -30,27 +30,28 @@ func main() {
 
 	var c Config
 	err := envconfig.Process("app", &c)
-	if err != nil {
+        if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	r := redis.NewClient(&redis.Options{
-		Addr: fmt.Sprintf("%s:%d", c.RedisHost, c.RedisPort),
-		// Password: c.RedisPassword,
-		DB: c.RedisDb,
+		Addr:     fmt.Sprintf("%s:%d", c.RedisHost, c.RedisPort),
+		Password: c.RedisPassword,
+		DB:       c.RedisDb,
 	})
 
 	router := gin.Default()
 
-	// router.GET("/ping", func(c *gin.Context) {
-	// 	if _, err := r.Ping(context.Background()).Result(); err != nil {
-	// 		c.Status(http.StatusInternalServerError)
-	// 	} else {
-	// 		c.Status(http.StatusOK)
-	// 	}
-	// })
+	router.GET("/ping", func(c *gin.Context) {
+		if _, err := r.Ping(context.Background()).Result(); err != nil {
+			c.Status(http.StatusInternalServerError)
+			log.Fatal(err)
+		} else {
+			c.Status(http.StatusOK)
+		}
+	})
 
-	router.GET("/:id", func(c *gin.Context) {
+	router.GET("/hitCounter/:id", func(c *gin.Context) {
 		ctx := context.Background()
 		id := c.Param("id")
 		val, err := r.Get(ctx, id).Result()
@@ -77,5 +78,6 @@ func main() {
 		return
 	})
 
-	_ = router.Run(fmt.Sprintf(":%d", 8081)) //c.Port
+	_ = router.Run(fmt.Sprintf(":%d", c.Port)) //c.Port
 }
+
