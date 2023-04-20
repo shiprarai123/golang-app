@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: uma22/redis:v3
+  repository: shipra999/redis:v3
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: ""
