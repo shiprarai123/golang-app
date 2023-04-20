@@ -45,7 +45,10 @@ spec:
             - name: REDIS_DB
               value: "0"
             - name: REDIS_PASSWORD
-              value: "test"
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PWD
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
